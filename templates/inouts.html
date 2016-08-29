@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>In/Out Report</title>
+</head>
+<body>
+{% if do_dogs %}
+    {% include "inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
+    {% include "inout_segment.html" with species="Kennels" direction="Out" items=dog_outs %}
+{% endif %}
+
+{% if do_cats %}
+    {% include "inout_segment.html" with species="Cattery" direction="In" items=cat_ins %}
+    {% include "inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
+{% endif %}
+</body>
+</html>
