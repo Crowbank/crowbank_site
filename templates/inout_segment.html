@@ -22,7 +22,11 @@
     <td style="border-top: 1pt solid rgb(164, 166, 166); text-align: left; font-family: Calibri; font-weight: normal; width: 200px;">{{ booking.cust.surname }}</td>
     <td style="border-top: 1pt solid rgb(164, 166, 166); text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">
     {% for pet in booking.pets.all %}
-        {{ pet.name }}{% if species == "Kennels" %} ({{ pet.breed.desc }}){% endif %}<br>
+        {% if pet.spec == "Dog" and species == "Kennels" %}
+            {{ pet.name }}({{ pet.breed.desc }})<br>
+        {% elif pet.spec == "Cat" and species == "Cattery" %}
+            {{ pet.name }}<br>
+        {% endif %}
     {% endfor %}
     </td>
     <td style="border-top: 1pt solid rgb(164, 166, 166); text-align: left; font-family: Calibri; font-weight: normal; width: 200px;">
