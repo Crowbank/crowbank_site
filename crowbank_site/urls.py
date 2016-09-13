@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^load_db/', include('load_db.urls')),
-    url(r'^intranet/', include('intranet.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('intranet.urls')),
 ]

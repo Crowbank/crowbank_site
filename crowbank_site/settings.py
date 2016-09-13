@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'petadmin_models.apps.PetadminModelsConfig',
+    'django_windows_tools',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -72,19 +73,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'crowbank_site.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        'HOST': '192.168.1.109',
         'NAME': 'petadmin_data',
         'USER': 'pa',
         'PASSWORD': 'petadmin',
-        'HOST': '127.0.0.1',
         'PORT': '3306'
-    }
+    },
 }
 
 
@@ -125,3 +125,5 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = 'static/'

@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import re
 from datetime import date, timedelta
 from petadmin_models.models import *
-# Create your views here.
+from forms import ConfirmationForm
 
+# Create your views here.
 
 def index(request):
     return HttpResponse("Hello, world. Welcome to Crowbank's intranet.")
+
 
 WEEKDAYS = {
     'mo': 0,
@@ -134,3 +136,69 @@ def inouts(request, io_args):
                }
 
     return render(request, 'inouts.html', context)
+
+
+def process_form(form):
+    bk_no = form.cleaned_data['bk_no']
+    booking = Booking.objects.get(pk=bk_no)
+    conf = Confirmation(booking)
+    conf.deluxe = form.cleaned_data['deluxe']
+    status = form.cleaned_data['status']
+    conf.amended = form.cleaned_data['amended']
+    conf.additional_text = form.cleaned_data['additional_text']
+    if form.cleaned_data['email']:
+        conf.email = form.cleaned_data['email']
+    if status == 'C':
+        conf.cancelled = True
+    elif status == '':
+        conf.force_deposit = True
+        conf.deposit_amount = form.cleaned_data['deposit']
+        conf.deposit_url = conf.get_deposit_url(bk_no, conf.deposit_amount,
+                                                booking.pet_names(), booking.customer)
+    else:
+        conf.deposit = False
+    body = conf.body()
+    return booking, conf, body
+
+
+def confirm(request, bk_no=None):
+    body = ''
+    conf = None
+    booking = None
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ConfirmationForm(request.POST)
+        if form.is_valid():
+            if 'populate' in form.data:
+                # populate confirmation options
+                bk_no = form.cleaned_data['bk_no']
+                booking = Booking.objects.get(pk=bk_no)
+                conf = Confirmation(booking)
+                form = ConfirmationForm(conf)
+            elif 'generate' in form.data:
+                booking, conf, body = process_form(form)
+            elif 'send' in form.data:
+                booking, conf, body = process_form(form)
+                conf.send()
+                context = {'confirmation_body':body, 'email':conf.email}
+                return render(request, 'confirm-sent.html', context)
+                # send email and redirect to a confirmation page
+    elif bk_no:
+        booking = Booking.objects.get(pk=bk_no)
+        conf = Confirmation(booking)
+        form = ConfirmationForm(conf)
+        # Populate Form
+    else:
+        form = ConfirmationForm()
+
+    context = {'form':form, 'confirmation_body':body, 'booking':booking, 'conf':conf }
+    return render(request, 'confirm.html', context)
+
+
+def confirmation(request, bk_no):
+    booking = Booking.objects.get(no=bk_no)
+    confirmation_object = Confirmation(booking)
+
+    context = {'conf':confirmation_object}
+
+    return render(request, 'confirmation.html', context)
