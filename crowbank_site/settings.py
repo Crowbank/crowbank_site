@@ -127,3 +127,8 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static/'
+
+EMAIL_HOST = 'ned.enixns.com'
+EMAIL_HOST_PASSWORD = 'Crowb@nk454'
+EMAIL_HOST_USER = 'info@crowbank.co.uk'
+EMAIL_USE_TLS = True

@@ -67,7 +67,7 @@ class InOutForm(forms.Form):
         ('both', 'Both Incomings and Outgoings'),
     )
 
-    from_date = forms.DateField(label='From Date')
-    to_date = forms.DateField(label='To Date')
+    from_date = forms.CharField(label='From Date', required=False)
+    to_date = forms.CharField(label='To Date', required=False)
     pet_types = forms.ChoiceField(label='With Pets', choices=PET_TYPES)
     in_or_out = forms.ChoiceField(label='Ins or Outs', choices=INOUT_TYPES)

@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 import re
 from datetime import date, timedelta
 from petadmin_models.models import *
-from forms import ConfirmationForm
+from forms import ConfirmationForm, InOutForm
 
 # Create your views here.
 
@@ -62,26 +62,56 @@ def date_dict_to_list(dict_form):
 
 
 def inouts(request, io_args):
-    split_args = io_args.split('/')
-    from_date = decode_date(split_args[0])
-    to_date = from_date
+    no_dogs = False
+    no_cats = False
+    do_ins = True
+    do_outs = True
+    from_date = None
+    to_date = None
 
-    if len(split_args) > 1:
-        to_date = decode_date(split_args[1], from_date)
+    if request.method == 'POST':
+        form = InOutForm(request.POST)
+        if form.is_valid():
+            from_date = form.cleaned_data['from_date']
+            to_date = form.cleaned_data['to_date']
+            pet_types = form.cleaned_data['pet_types']
+            in_or_out = form.cleaned_data['in_or_out']
 
-    additional_args = ''
-    if len(split_args) > 2:
-        additional_args = '/'.join(split_args[2:])
+            from_date = decode_date(from_date)
+            to_date = decode_date(to_date, from_date)
 
-    dog_only_re = re.compile('.*dog.*', re.I)
-    cat_only_re = re.compile('.*cat.*', re.I)
+            if pet_types == 'cat':
+                no_dogs = True
+            if pet_types == 'dog':
+                no_cats = True
 
-    no_dogs = dog_only_re.match(additional_args) is None
-    no_cats = cat_only_re.match(additional_args) is None
+            if in_or_out == 'in':
+                do_outs = False
+            if in_or_out == 'out':
+                do_ins = False
 
-    if no_cats and no_dogs:
-        no_cats = False
-        no_dogs = False
+    else:
+        form = InOutForm()
+        split_args = io_args.split('/')
+        from_date = decode_date(split_args[0])
+        to_date = from_date
+
+        if len(split_args) > 1:
+            to_date = decode_date(split_args[1], from_date)
+
+        additional_args = ''
+        if len(split_args) > 2:
+            additional_args = '/'.join(split_args[2:])
+
+        dog_only_re = re.compile('.*dog.*', re.I)
+        cat_only_re = re.compile('.*cat.*', re.I)
+
+        no_dogs = dog_only_re.match(additional_args) is None
+        no_cats = cat_only_re.match(additional_args) is None
+
+        if no_cats and no_dogs:
+            no_cats = False
+            no_dogs = False
 
     ins = Booking.objects.filter(start_date__gte=from_date).filter(start_date__lte=to_date).exclude(status='N').exclude(status='C')
     outs = Booking.objects.filter(end_date__gte=from_date).filter(end_date__lte=to_date).exclude(status='N').exclude(status='C')
@@ -132,7 +162,10 @@ def inouts(request, io_args):
                'cat_ins': ins_cat_list,
                'cat_outs': outs_cat_list,
                'do_dogs': not no_dogs,
-               'do_cats': not no_cats
+               'do_cats': not no_cats,
+               'do_ins': do_ins,
+               'do_outs': do_outs,
+               'form': form
                }
 
     return render(request, 'inouts.html', context)

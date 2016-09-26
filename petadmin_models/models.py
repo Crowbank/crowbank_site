@@ -148,6 +148,8 @@ class Breed(models.Model):
 
 
 class Pet(models.Model):
+    SPEC_CHOICES = ('Dog', 'Cat',)
+    
     no = models.AutoField(primary_key=True, db_column='pet_no')
     customer = models.ForeignKey(Customer, db_column='pet_cust_no')
     name = models.CharField(max_length=20, db_column='pet_name')
@@ -464,6 +466,19 @@ class Payment(models.Model):
 
     def __str__(self):
         return 'Payment #%d' % self.no
+
+
+class Employee(models.Model):
+    RANK_CHOICES = (
+        (1, 'Shift Leader'),
+        (2, 'Kennel Assistant'),
+        (3, 'Volunteer'),
+    )
+    no = models.AutoField(primary_key=True, db_column='emp_no')
+    forename = models.CharField(max_length=30, db_column='emp_forename')
+    surname = models.CharField(max_length=30, db_column='emp_surname')
+    rank = models.IntegerField(choices=RANK_CHOICES)
+    pass
 
 
 class MedicalCondition(models.Model):
