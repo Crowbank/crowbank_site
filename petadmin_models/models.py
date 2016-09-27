@@ -8,10 +8,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.core.mail import send_mail
 import decimal
 import urllib2
 import datetime
-from django.template import Template
 from django.template import loader
 import smtplib
 import pymssql
@@ -41,7 +41,7 @@ class Environment:
 
     def get_connection(self):
         if not self.connection:
-            self.connection = pymssql.connect(server='DesktopPC', user='PA', password='petadmin', database='PA',
+            self.connection = pymssql.connect(server='DesktopPC', user='PA', password='petadmin', database='crowbank',
                                               autocommit=True)
 
         return self.connection
@@ -408,14 +408,15 @@ class Confirmation:
             body = self.body()
             cursor = self.env.get_connection().cursor()
             try:
-                self.env.send_email(self.email, body, subject)
+                send_mail(subject, body, 'Crowbank Kennels and Cattery <info@crowbank.co.uk>', [self.email])
+#                self.env.send_email(self.email, body, subject)
             except Exception as e:
 #                    log.exception("Exception sending email '%s': %s", subject, e.message)
                 return
 
             if self.deposit:
                 self.booking.customer.deposit_requested = 1
-                sql = 'Execute PA2..pdeposit_request %d, %f' % (self.booking.no, self.deposit_amount)
+                sql = 'Execute pdeposit_request %d, %f' % (self.booking.no, self.deposit_amount)
                 try:
                     cursor.execute(sql)
                 except Exception as e:
@@ -428,7 +429,7 @@ class Confirmation:
             f.write(body)
             f.close()
 
-            sql = "Execute PA2..pinsert_confaction %d, %d, '', '%s', '%s'" %\
+            sql = "Execute pinsert_confaction %d, %d, '', '%s', '%s'" %\
                 (self.conf_no, self.booking.no, subject, fout)
             try:
                 cursor.execute(sql)
