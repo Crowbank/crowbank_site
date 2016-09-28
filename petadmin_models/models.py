@@ -13,59 +13,8 @@ import decimal
 import urllib2
 import datetime
 from django.template import loader
-import smtplib
-import pymssql
-
-
-class Environment:
-    def __init__(self):
-        self.env_type = ''
-        self.email_host = 'ned.enixns.com'
-        self.email_user = 'info@crowbank.co.uk'
-        self.email_bcc = 'info@crowbank.co.uk'
-        self.email_pwd = 'Crowb@nk454!'
-        self.email_logs = 'crowbank.partners@gmail.com'
-        self.smtp_server = None
-        self.connection = None
-        self.is_test = True
-        self.smtp_handler = None
-        self.crowbank_addresses = ['info@crowbank.co.uk', 'crowbank.partners@gmail.com', 'eyehudai@gmail.com']
-
-    def get_smtp_server(self):
-        if not self.smtp_server:
-            self.smtp_server = smtplib.SMTP_SSL(self.email_host, 465)
-            self.smtp_server.ehlo()
-            self.smtp_server.login(self.email_user, self.email_pwd)
-
-        return self.smtp_server
-
-    def get_connection(self):
-        if not self.connection:
-            self.connection = pymssql.connect(server='DesktopPC', user='PA', password='petadmin', database='crowbank',
-                                              autocommit=True)
-
-        return self.connection
-
-    def send_email(self, send_to, send_body, send_subject, force_send=False):
-        if self.is_test and not force_send:
-            send_subject += ' (test only)'
-        msg = 'To:' + send_to + '\nMIME-Version: 1.0\nContent-type: text/html\nFrom: Crowbank Kennels and Cattery <'\
-              + self.email_user + '>\n' +\
-              'Subject:' + send_subject + '\n\n' + send_body
-        target = [send_to, self.email_bcc]
-        if self.is_test and not force_send:
-            target = [self.email_bcc]
-        if send_to in self.crowbank_addresses:
-            target = [send_to]
-        if not self.smtp_server:
-            self.get_smtp_server()
-        self.smtp_server.sendmail(self.email_user, target, msg)
-
-    def close(self):
-        if self.connection:
-            self.connection.close()
-        if self.smtp_handler:
-            self.smtp_handler.flush()
+import os.path
+import pickle
 
 
 SEX_CHOICES = (
@@ -244,6 +193,29 @@ class ReportParameters:
             self.deposit_icon = data.encode("base64")
 
 
+class CrowbankMessage:
+    # This class represents a message sent to Crowbank
+    # Message comprises an action type (string), plus a context dictionary
+    # Sending the message is implemented by first pickling a list of [action, context]
+    # and then writing the result to a file in an outbox folder
+    # The mechanism relies on an external process that copies the content
+    # of the outbox, either using a simple copy (for local implementations)
+    # or using sftp (for remote implementations) to a local inbox
+    # A local listener opens files in the local inbox, unpickles their content,
+    # and implements the desired action
+
+    OUTBOX_FOLDER = 'outbox'
+
+    def __init__(self, action):
+        self.action = action
+        self.id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        self.context = {}
+
+    def send(self):
+        f = file(os.path.join(CrowbankMessage.OUTBOX_FOLDER, self.id))
+        pickle.dump([self.action, self.context], f)
+
+
 class Confirmation:
     @staticmethod
     def get_deposit_url(bk_no, deposit_amount, pet_names, customer):
@@ -293,7 +265,6 @@ class Confirmation:
         self.rationale = ''
         self.additional_text = ''
         self.email = ''
-        self.env = Environment()
 
         if self.booking.start_date.year > 2016:
             self.in_2017 = True
@@ -406,7 +377,6 @@ class Confirmation:
                    return
 
             body = self.body()
-            cursor = self.env.get_connection().cursor()
             try:
                 send_mail(subject, body, 'Crowbank Kennels and Cattery <info@crowbank.co.uk>', [self.email])
 #                self.env.send_email(self.email, body, subject)
@@ -415,27 +385,41 @@ class Confirmation:
                 return
 
             if self.deposit:
-                self.booking.customer.deposit_requested = 1
-                sql = 'Execute pdeposit_request %d, %f' % (self.booking.no, self.deposit_amount)
-                try:
-                    cursor.execute(sql)
-                except Exception as e:
-                    pass
-#                       log.exception("Exception executing '%s': %s", sql, e.message)
+                msg = CrowbankMessage('deposit_request')
+                msg.context['bk_no'] = self.booking.no
+                msg.context['deposit_amount'] = self.deposit_amount
+
+                msg.send()
+#                 self.booking.customer.deposit_requested = 1
+#                 sql = 'Execute pdeposit_request %d, %f' % (self.booking.no, self.deposit_amount)
+#                 try:
+#                     cursor.execute(sql)
+#                 except Exception as e:
+#                     pass
+# #                       log.exception("Exception executing '%s': %s", sql, e.message)
 
             now = datetime.datetime.now()
-            fout = "Z:\Kennels\Confirmations\%d_%s.html" % (self.booking.no, now.strftime("%Y%m%d%H%M%S"))
-            f = open(fout, 'w')
-            f.write(body)
-            f.close()
 
-            sql = "Execute pinsert_confaction %d, %d, '', '%s', '%s'" %\
-                (self.conf_no, self.booking.no, subject, fout)
-            try:
-                cursor.execute(sql)
-            except Exception as e:
-                pass
-#                    log.exception("Exception executing '%s': %s", sql, e.message)
+            msg = CrowbankMessage('confirmation_file')
+            file_name = "Z:\Kennels\Confirmations\%d_%s.html" % (self.booking.no, now.strftime("%Y%m%d%H%M%S"))
+            msg.context['file_name'] = file_name
+            msg.context['body'] = body
+            msg.send()
+
+            msg = CrowbankMessage('insert_confaction')
+            msg.context['conf_no'] = self.conf_no
+            msg.context['bk_no'] = self.booking.no
+            msg.context['subject'] = subject
+            msg.context['file_name'] = file_name
+            msg.send()
+
+#             sql = "Execute pinsert_confaction %d, %d, '', '%s', '%s'" %\
+#                 (self.conf_no, self.booking.no, subject, fout)
+#             try:
+#                 cursor.execute(sql)
+#             except Exception as e:
+#                 pass
+# #                    log.exception("Exception executing '%s': %s", sql, e.message)
 
 
 class BookingItem(models.Model):
@@ -479,12 +463,20 @@ class Employee(models.Model):
     forename = models.CharField(max_length=30, db_column='emp_forename')
     surname = models.CharField(max_length=30, db_column='emp_surname')
     rank = models.IntegerField(choices=RANK_CHOICES)
-    pass
+
+    def __str__(self):
+        return self.forename + ' ' + self.surname
+
+    class Meta:
+        db_table = 'tblemployee'
 
 
 class MedicalCondition(models.Model):
     no = models.AutoField(primary_key=True, db_column='mc_no')
     desc = models.CharField(max_length=100, db_column='mc_desc')
+
+    def __str__(self):
+        return self.desc
 
     class Meta:
         db_table = 'tblmedicalcondition'
@@ -508,6 +500,9 @@ class VetVisit(models.Model):
     amount = models.FloatField(db_column='vv_amount')
     status = models.CharField(max_length=1, db_column='vv_status', choices=CHARGE_CHOICES)
     med = models.ForeignKey(MedicalCondition, db_column='vv_mc_no')
+
+    def __str__(self):
+        return '%s (%s)' % (self.pet.name, self.visit_date.strftime("%d/%m/%y"))
 
     class Meta:
         db_table = 'tblvetvisit'
