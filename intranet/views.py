@@ -168,7 +168,7 @@ def inouts(request, io_args):
                'form': form
                }
 
-    return render(request, 'inouts.html', context)
+    return render(request, 'intranet/inouts.html', context)
 
 
 def process_form(form):
@@ -214,7 +214,7 @@ def confirm(request, bk_no=None):
                 booking, conf, body = process_form(form)
                 conf.send()
                 context = {'confirmation_body':body, 'email':conf.email}
-                return render(request, 'confirm-sent.html', context)
+                return render(request, 'intranet/confirm-sent.html', context)
                 # send email and redirect to a confirmation page
     elif bk_no:
         booking = Booking.objects.get(pk=bk_no)
@@ -225,7 +225,7 @@ def confirm(request, bk_no=None):
         form = ConfirmationForm()
 
     context = {'form':form, 'confirmation_body':body, 'booking':booking, 'conf':conf }
-    return render(request, 'confirm.html', context)
+    return render(request, 'intranet/confirm.html', context)
 
 
 def confirmation(request, bk_no):
@@ -234,4 +234,8 @@ def confirmation(request, bk_no):
 
     context = {'conf':confirmation_object}
 
-    return render(request, 'confirmation.html', context)
+    return render(request, 'intranet/confirmation.html', context)
+
+
+def test(request):
+    return render(request, 'intranet/test.html', {})

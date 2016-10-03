@@ -22,5 +22,6 @@ urlpatterns = [
     url(r'^confirm/(?P<bk_no>[0-9]*)', views.confirm, name='confirm'),
     url(r'^inouts/(?P<io_args>.*)$', views.inouts, name='inouts'),
     url(r'^confirmation/(?P<bk_no>[0-9]+)', views.confirmation, name='confirmation'),
+    url(r'^test', views.test, name='test'),
     url(r'^$', views.index, name='index'),
 ]
