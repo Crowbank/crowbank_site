@@ -53,19 +53,19 @@
 
 {% if do_dogs %}
     {% if do_ins %}
-        {% include "inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
+        {% include "intranet/inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
     {%  endif %}
     {% if do_outs %}
-        {% include "inout_segment.html" with species="Kennels" direction="Out" items=dog_outs %}
+        {% include "intranet/inout_segment.html" with species="Kennels" direction="Out" items=dog_outs %}
     {%  endif %}
 {% endif %}
 
 {% if do_cats %}
     {% if do_ins %}
-        {% include "inout_segment.html" with species="Cattery" direction="In" items=cat_ins %}
+        {% include "intranet/inout_segment.html" with species="Cattery" direction="In" items=cat_ins %}
     {%  endif %}
     {% if do_outs %}
-        {% include "inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
+        {% include "intranet/inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
     {%  endif %}
 {% endif %}
 </body>
