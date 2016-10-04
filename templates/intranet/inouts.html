@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>In/Out Report</title>
+</head>
+<body>
+<form action="{% url 'inouts' '' %}" method="post">
+    {% csrf_token %}
+    <table style="text-align: left; width: 800px;" border="0" cellpadding="2" cellspacing="2">
+        <tbody>
+        <tr>
+        <div class="fieldWrapper">
+            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
+                <label for="{{ form.from_date.id_for_label }}">Start Date</label></td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.from_date }}</td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 400px;">
+                Use yyyymmdd or yymmdd or +n for n days from today, or ddd for upcoming weekday. Leave empty for today.
+            </td>
+        </div>
+        </tr>
+        <tr>
+        <div class="fieldWrapper">
+            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
+                <label for="{{ form.to_date.id_for_label }}">End Date</label></td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.to_date }}</td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 400px;">
+                Use yyyymmdd or yymmdd or +n for n days from start date, or ddd for upcoming weekday. Leave empty for start date.
+            </td>
+        </div>
+        </tr>
+        <tr>
+        <div class="fieldWrapper">
+            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
+                <label for="{{ form.pet_types.id_for_label }}">Dogs / Cats</label></td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.pet_types }}</td>
+        </div>
+        </tr>
+        <tr>
+        <div class="fieldWrapper">
+            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
+                <label for="{{ form.in_or_out.id_for_label }}">In / Out</label></td>
+            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.in_or_out }}</td>
+        </div>
+        </tr>
+        <tr align="center">
+            <th style="border-top: 1pt solid rgb(164, 166, 166); border-bottom: 1pt solid rgb(164, 166, 166); background-color: rgb(214, 224, 226);width: 401px;" colspan="2" rowspan="1">
+                <span style="font-family: Calibri; font-weight: bold;"><input type="submit" name='submit' value="Submit" /></span></th>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+{% if do_dogs %}
+    {% if do_ins %}
+        {% include "inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
+    {%  endif %}
+    {% if do_outs %}
+        {% include "inout_segment.html" with species="Kennels" direction="Out" items=dog_outs %}
+    {%  endif %}
+{% endif %}
+
+{% if do_cats %}
+    {% if do_ins %}
+        {% include "inout_segment.html" with species="Cattery" direction="In" items=cat_ins %}
+    {%  endif %}
+    {% if do_outs %}
+        {% include "inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
+    {%  endif %}
+{% endif %}
+</body>
+</html>
