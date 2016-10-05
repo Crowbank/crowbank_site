@@ -170,10 +170,10 @@ class Booking(models.Model):
 
 class ReportParameters:
     def __init__(self):
-        self.report = "Z:\python\petadmin\Confirmation.html"
-        self.logo_file = "Z:\python\petadmin\Logo.jpg"
-        self.deluxe_logo_file = "Z:\python\petadmin\deluxe_logo_2.png"
-        self.pay_deposit_file = "Z:\python\petadmin\paydeposit.png"
+        self.report = "intranet/Confirmation.html"
+        self.logo_file = "/static/img/Logo.jpg"
+        self.deluxe_logo_file = "/static/img/deluxe_logo_2.png"
+        self.pay_deposit_file = "/static/img/paydeposit.png"
         self.logo_code = None
         self.deluxe_logo_code = None
         self.deposit_icon = None
@@ -352,16 +352,11 @@ class Confirmation:
     def body(self, report_parameters=None):
         today_date = datetime.date.today()
 
-        if not report_parameters:
-            report_parameters = ReportParameters()
-            report_parameters.read_images()
-
         template = loader.get_template('confirmation_body.html')
 
         self.evaluate_parameters()
 
-        body = template.render({'today_date': today_date, 'conf': self,
-                                'report_parameters': report_parameters})
+        body = template.render({'today_date': today_date, 'conf': self})
 
         return body
 
