@@ -1,0 +1,401 @@
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-device-pixel-ratio: 2) {
+
+	#header-searchform input {
+    background-image: url(../images/search@2x.png);
+    -webkit-background-size:16px 16px;
+	   -moz-background-size:16px 16px;
+	     -o-background-size:16px 16px;
+	        background-size:16px 16px;
+    }
+
+    #header-cart {
+    background-image: url(../images/cart@2x.png);
+    -webkit-background-size:16px 16px;
+	   -moz-background-size:16px 16px;
+	     -o-background-size:16px 16px;
+	        background-size:16px 16px;
+    }
+        
+	.accordion .accordion-title a{
+	background-image:url(../images/accordion-open@2x.png);
+	-webkit-background-size:39px 80px;
+	   -moz-background-size:39px 80px;
+	     -o-background-size:39px 80px;
+	        background-size:39px 80px;
+	}
+	.accordion .accordion-title.active a{
+	background-image:url(../images/accordion-close@2x.png);
+	-webkit-background-size:39px 80px;
+	   -moz-background-size:39px 80px;
+	     -o-background-size:39px 80px;
+	        background-size:39px 80px;
+	}
+	.toggle .toggle-title span{
+	background-image:url(../images/accordion-open@2x.png);
+	-webkit-background-size:39px 80px;
+	   -moz-background-size:39px 80px;
+	     -o-background-size:39px 80px;
+	        background-size:39px 80px;
+	}
+	.toggle .toggle-title.active span{
+	background-image:url(../images/accordion-close@2x.png);
+	-webkit-background-size:39px 80px;
+	   -moz-background-size:39px 80px;
+	     -o-background-size:39px 80px;
+	        background-size:39px 80px;
+	}
+	.sidenav li a, .widget_wp_nav_menu_desc li a{
+	background-image:url(../images/arrow5@2x.png);
+	-webkit-background-size:7px 11px;
+	   -moz-background-size:7px 11px;
+	     -o-background-size:7px 11px;
+	        background-size:7px 11px;
+	}
+	.sidenav li.current_page_item a, .sidenav li.current_page_item a:hover,
+	.widget_wp_nav_menu_desc li.current_page_item a, .widget_wp_nav_menu_desc li.current_page_item a:hover{
+	background-image:url(../images/arrow5_white@2x.png);
+	-webkit-background-size:7px 11px;
+	   -moz-background-size:7px 11px;
+	     -o-background-size:7px 11px;
+	        background-size:7px 11px;
+	}
+	#back-to-top a{
+	background-image:url(../images/backtotop@2x.png);
+	-webkit-background-size:15px 10px;
+	   -moz-background-size:15px 10px;
+	     -o-background-size:15px 10px;
+	        background-size:15px 10px;
+	}
+	.hr2{
+	background-image:url(../images/dotted@2x.png);
+	-webkit-background-size:4px 1px;
+	   -moz-background-size:4px 1px;
+	     -o-background-size:4px 1px;
+	        background-size:4px 1px;
+	}
+	#alt-title .grid{
+	background-image:url(../images/grid@2x.png);
+	-webkit-background-size:2px 2px;
+	   -moz-background-size:2px 2px;
+	     -o-background-size:2px 2px;
+	        background-size:2px 2px;
+	}
+	.hr-border{
+	background-image:url(../images/stripes@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.hr4{
+	background-image:url(../images/stripes@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.teaserbox{
+	background-image:url(../images/stripes@2x.png) !important;
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.callout{
+	background-image:url(../images/stripes@2x.png) !important;
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.description.style-2{
+	background-image:url(../images/stripes@2x.png) !important;
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.title{
+	background-image:url(../images/stripes@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	.close-infobar:after{
+	background-image:url(../images/toggle@2x.png);
+	-webkit-background-size:80px 40px;
+	   -moz-background-size:80px 40px;
+	     -o-background-size:80px 40px;
+	        background-size:80px 40px;
+	}
+	.close-infobar.open:after{
+	background-image:url(../images/toggle@2x.png);
+	-webkit-background-size:80px 40px;
+	   -moz-background-size:80px 40px;
+	     -o-background-size:80px 40px;
+	        background-size:80px 40px;
+	}
+	.overlay{
+	background-image:url(../images/overlay-lightbox@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.post-image .overlay{
+	background-image:url(../images/overlay-link@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.single .post-image .overlay{
+	background-image:url(../images/overlay-lightbox@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.post-gallery .overlay{
+	background-image:url(../images/overlay-link@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.single .post-gallery .overlay{
+	background-image:url(../images/overlay-lightbox@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.portfolio-item .portfolio-pic .portfolio-overlay .overlay-link,
+	    .portfolio-item-one .portfolio-pic .portfolio-overlay .overlay-link{
+	background-image:url(../images/overlay-link@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.portfolio-item .portfolio-pic .portfolio-overlay .overlay-lightbox,
+	    .portfolio-item-one .portfolio-pic .portfolio-overlay .overlay-lightbox{
+	background-image:url(../images/overlay-lightbox@2x.png);
+	-webkit-background-size:20px 20px;
+	   -moz-background-size:20px 20px;
+	     -o-background-size:20px 20px;
+	        background-size:20px 20px;
+	}
+	.post-icon.standard{
+	background-image:url(../images/postformat-standard@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-icon.imagegallery{
+	background-image:url(../images/postformat-gallery@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-icon.link{
+	background-image:url(../images/postformat-link@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-icon.quote{
+	background-image:url(../images/postformat-quote@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-icon.video{
+	background-image:url(../images/postformat-video@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-icon.audio{
+	background-image:url(../images/postformat-audio@2x.png);
+	-webkit-background-size:35px 35px;
+	   -moz-background-size:35px 35px;
+	     -o-background-size:35px 35px;
+	        background-size:35px 35px;
+	}
+	.post-quote{
+	background-image:url(../images/quote@2x.png);
+	-webkit-background-size:21px 17px;
+	   -moz-background-size:21px 17px;
+	     -o-background-size:21px 17px;
+	        background-size:21px 17px;
+	}
+	.widget_search input{
+	background-image:url(../images/search@2x.png);
+	-webkit-background-size:13px 13px;
+	   -moz-background-size:13px 13px;
+	     -o-background-size:13px 13px;
+	        background-size:13px 13px;
+	}
+	.projects-nav .next a,
+	    .post-navigation .next a{
+	background-image:url(../images/slider-next@2x.png);
+	-webkit-background-size:10px 15px;
+	   -moz-background-size:10px 15px;
+	     -o-background-size:10px 15px;
+	        background-size:10px 15px;
+	}
+	.projects-nav .prev a,
+	    .post-navigation .prev a{
+	background-image:url(../images/slider-prev@2x.png);
+	-webkit-background-size:10px 15px;
+	   -moz-background-size:10px 15px;
+	     -o-background-size:10px 15px;
+	        background-size:10px 15px;
+	}
+	.flex-direction-nav .flex-next{
+	background-image:url(../images/slider-next@2x.png);
+	-webkit-background-size:10px 15px;
+	   -moz-background-size:10px 15px;
+	     -o-background-size:10px 15px;
+	        background-size:10px 15px;
+	}
+	.flex-direction-nav .flex-prev{
+	background-image:url(../images/slider-prev@2x.png);
+	-webkit-background-size:10px 15px;
+	   -moz-background-size:10px 15px;
+	     -o-background-size:10px 15px;
+	        background-size:10px 15px;
+	}
+	.testimonial:after{
+	background-image:url(../images/testimonials@2x.png);
+	-webkit-background-size:22px 22px;
+	   -moz-background-size:22px 22px;
+	     -o-background-size:22px 22px;
+	        background-size:22px 22px;
+	}
+	.widget_twitter ul li, .widget_tp_widget_recent_tweets ul li{
+	background:url(../images/twitter@2x.png) no-repeat !important;
+	-webkit-background-size:22px 18px !important;
+	   -moz-background-size:22px 18px !important;
+	     -o-background-size:22px 18px !important;
+	        background-size:22px 18px !important;
+	}
+	#related-posts ul li{
+	background-image:url(../images/arrow4@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	#sidebar .widget ul li{
+	background-image:url(../images/arrow4@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	#footer .widget ul li,
+		#infobar .widget ul li{
+	background-image:url(../images/arrow4@2x.png);
+	-webkit-background-size:5px 5px;
+	   -moz-background-size:5px 5px;
+	     -o-background-size:5px 5px;
+	        background-size:5px 5px;
+	}
+	
+	#twitterbar .twitterpost {
+    background-image: url(../images/icons/twitter@2x.png);
+	-webkit-background-size:40px 80px; 
+	   -moz-background-size:40px 80px; 
+	     -o-background-size:40px 80px; 
+	        background-size:40px 80px;
+    }
+	
+	[class^="icon-"],
+	[class*=" icon-"] {
+	background-image: url(../images/glyphicons-halflings@2x.png);
+	-webkit-background-size:469px 159px;
+	   -moz-background-size:469px 159px;
+	     -o-background-size:469px 159px;
+	        background-size:469px 159px;
+	}
+	
+	a.button.black i,
+	a.button.alternative-1 i,
+	a.button.alternative-2 i,
+	a.button.alternative-3 i,
+	.icon-white,
+	.nav > .active > a > [class^="icon-"],
+	.nav > .active > a > [class*=" icon-"],
+	.dropdown-menu > li > a:hover > [class^="icon-"],
+	.dropdown-menu > li > a:hover > [class*=" icon-"],
+	.dropdown-menu > .active > a > [class^="icon-"],
+	.dropdown-menu > .active > a > [class*=" icon-"] {
+	background-image: url(../images/glyphicons-halflings-white@2x.png);
+	-webkit-background-size:469px 159px;
+	   -moz-background-size:469px 159px;
+	     -o-background-size:469px 159px;
+	        background-size:469px 159px;
+	}        
+	        
+	.social-email a { background: url(../images/icons/email@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-aim a { background-image: url(../images/icons/aim@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-apple a { background-image: url(../images/icons/apple@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-behance a { background-image: url(../images/icons/behance@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-blogger a { background-image: url(../images/icons/blogger@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-cargo a { background-image: url(../images/icons/cargo@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-delicious a { background-image: url(../images/icons/delicious@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-deviantart a { background-image: url(../images/icons/deviantart@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-digg a { background-image: url(../images/icons/digg@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-dopplr a { background-image: url(../images/icons/dopplr@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-dribbble a { background-image: url(../images/icons/dribbble@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-ember a { background-image: url(../images/icons/ember@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-evernote a { background-image: url(../images/icons/evernote@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-facebook a { background-image: url(../images/icons/facebook@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-flickr a { background-image: url(../images/icons/flickr@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-forrst a { background-image: url(../images/icons/forrst@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-github a { background-image: url(../images/icons/github@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-google a { background-image: url(../images/icons/google@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-googleplus a { background-image: url(../images/icons/googleplus@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-gowalla a { background-image: url(../images/icons/gowalla@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-grooveshark a { background-image: url(../images/icons/grooveshark@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-html5 a { background-image: url(../images/icons/html5@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-icloud a { background-image: url(../images/icons/icloud@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-instagram a { background-image: url(../images/icons/instagram@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-lastfm a { background-image: url(../images/icons/lastfm@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-linkedin a { background-image: url(../images/icons/linkedin@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-metacafe a { background-image: url(../images/icons/metacafe@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-mixx a { background-image: url(../images/icons/mixx@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-myspace a { background-image: url(../images/icons/myspace@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-netvibes a { background-image: url(../images/icons/netvibes@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-newsvine a { background-image: url(../images/icons/newsvine@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-orkut a { background-image: url(../images/icons/orkut@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-paypal a { background-image: url(../images/icons/paypal@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-picasa a { background-image: url(../images/icons/picasa@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-pinterest a { background-image: url(../images/icons/pinterest@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-plurk a { background-image: url(../images/icons/plurk@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-posterous a { background-image: url(../images/icons/posterous@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-reddit a { background-image: url(../images/icons/reddit@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-rss a { background-image: url(../images/icons/rss@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-skype a { background-image: url(../images/icons/skype@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-stumbleupon a { background-image: url(../images/icons/stumbleupon@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-technorati a { background-image: url(../images/icons/technorati@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-tumblr a { background-image: url(../images/icons/tumblr@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-twitter a { background-image: url(../images/icons/twitter@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-vimeo a { background-image: url(../images/icons/vimeo@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-wordpress a { background-image: url(../images/icons/wordpress@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-yahoo a { background-image: url(../images/icons/yahoo@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-yelp a { background-image: url(../images/icons/yelp@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-youtube a { background-image: url(../images/icons/youtube@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-zerply a { background-image: url(../images/icons/zerply@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-zootool a { background-image: url(../images/icons/zootool@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }
+	.social-xing a { background-image: url(../images/icons/xing@2x.png); -webkit-background-size:40px 80px; -moz-background-size:40px 80px; -o-background-size:40px 80px; background-size:40px 80px; }            
+
+}
