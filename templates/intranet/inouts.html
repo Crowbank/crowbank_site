@@ -1,56 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>In/Out Report</title>
-</head>
-<body>
-<form action="{% url 'inouts' '' %}" method="post">
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block title %}Crowbank In/Out Report{% endblock %}
+
+{% block content %}
+<h1>In/Out Report</h1>
+<form class="form-horizontal" action="{% url 'inouts' '' %}" method="post">
     {% csrf_token %}
-    <table style="text-align: left; width: 800px;" border="0" cellpadding="2" cellspacing="2">
-        <tbody>
-        <tr>
-        <div class="fieldWrapper">
-            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
-                <label for="{{ form.from_date.id_for_label }}">Start Date</label></td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.from_date }}</td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 400px;">
-                Use yyyymmdd or yymmdd or +n for n days from today, or ddd for upcoming weekday. Leave empty for today.
-            </td>
-        </div>
-        </tr>
-        <tr>
-        <div class="fieldWrapper">
-            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
-                <label for="{{ form.to_date.id_for_label }}">End Date</label></td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.to_date }}</td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 400px;">
-                Use yyyymmdd or yymmdd or +n for n days from start date, or ddd for upcoming weekday. Leave empty for start date.
-            </td>
-        </div>
-        </tr>
-        <tr>
-        <div class="fieldWrapper">
-            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
-                <label for="{{ form.pet_types.id_for_label }}">Dogs / Cats</label></td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.pet_types }}</td>
-        </div>
-        </tr>
-        <tr>
-        <div class="fieldWrapper">
-            <td style="text-align: left; font-family: Calibri; font-weight: bold; width: 100px;">
-                <label for="{{ form.in_or_out.id_for_label }}">In / Out</label></td>
-            <td style="text-align: left; font-family: Calibri; font-weight: normal; width: 300px;">{{ form.in_or_out }}</td>
-        </div>
-        </tr>
-        <tr align="center">
-            <th style="border-top: 1pt solid rgb(164, 166, 166); border-bottom: 1pt solid rgb(164, 166, 166); background-color: rgb(214, 224, 226);width: 401px;" colspan="2" rowspan="1">
-                <span style="font-family: Calibri; font-weight: bold;"><input type="submit" name='submit' value="Submit" /></span></th>
-        </tr>
-        </tbody>
-    </table>
+
+    {% bootstrap_field form.from_date %}
+    <span class="help-block">
+        Use yymmdd or +n for n days from today, or ddd for weekday. Leave empty for today.
+    </span>
+    {% bootstrap_field form.to_date %}
+    <span class="help-block">
+        Use yymmdd or +n for n days from start date, or ddd for weekday. Leave empty for start date.
+    </span>
+        {% bootstrap_field form.pet_types %}
+        {% bootstrap_field form.in_or_out %}
+        {% bootstrap_button "Submit" button_type="submit" button_class="btn-primary btn-block" %}
 </form>
 
+    <div class="row"><hr></div>
 {% if do_dogs %}
     {% if do_ins %}
         {% include "intranet/inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
@@ -68,5 +41,4 @@
         {% include "intranet/inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
     {%  endif %}
 {% endif %}
-</body>
-</html>
+{% endblock %}

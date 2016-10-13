@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 import re
 from datetime import date, timedelta
 from petadmin_models.models import *
-from forms import ConfirmationForm, InOutForm
+from forms import ConfirmationForm, InOutForm, BookingSelectionForm, ConfirmationOptionsForm, SendConfirmationForm
+from formtools.wizard.views import SessionWizardView
 
 # Create your views here.
 
@@ -237,5 +238,21 @@ def confirmation(request, bk_no):
     return render(request, 'intranet/confirmation.html', context)
 
 
-def test(request):
-    return render(request, 'intranet/test.html', {})
+CONFIRM_FORMS = [('booking_selection', BookingSelectionForm),
+                 ('confirmation_options', ConfirmationOptionsForm),
+                 ('send_confirmation', SendConfirmationForm),
+                 ]
+
+TEMPLATES = [('booking_selection', 'booking_selection.html'),
+             ('confirmation_options', 'confirmation_options.html'),
+             ('send_confirmation', 'send_confirmation.html'),
+             ]
+
+
+class ConfirmWizard(SessionWizardView):
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        return render(self.request, 'confirmation_sent.html',
+                      {'form_data': [form.cleaned_data for form in form_list], })

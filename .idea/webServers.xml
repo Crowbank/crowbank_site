@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="4e4b84d5-1ffa-45d5-85a5-4cc1c3784f29" name="PythonAnywhere" url="http://crowbank.pythonanywhere.com">
+        <fileTransfer host="ssh.pythonanywhere.com" port="22" accessType="SFTP" password="dfe9dfd8dfc5dfdddfc8dfcbdfc4dfc1df9edf9fdf9e" username="crowbank">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

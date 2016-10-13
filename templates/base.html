@@ -1,0 +1,40 @@
+{% load static %}
+{% load bootstrap3 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static "css/crowbank.css" %}">
+    <title>{% block title %}Crowbank Kennels and Cattery{% endblock %}</title>
+</head>
+<body>
+<div class="container">
+    <div id="topbar" class="clearfix ">
+         <div class="callus">Tel: 01236 729454 or Email: info@crowbank.co.uk</div>
+	</div>
+    <div id="header">
+        <img src="{% static "img/logo.jpg" %}" width="400" height="200" alt="Crowbank">
+    </div>
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/inouts/">In/Out Report</a></li>
+            <li><a href="/confirm/">Send Confirmation</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="messages">
+        {% block messages %}
+            {% bootstrap_messages %}
+        {% endblock %}
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+</body>
+</html>

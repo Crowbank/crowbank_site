@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'petadmin_models.apps.PetadminModelsConfig',
-    'django_windows_tools',
+    'intranet.apps.IntranetConfig',
+    'bootstrap3',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -57,8 +57,7 @@ ROOT_URLCONF = 'crowbank_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,17 +75,28 @@ WSGI_APPLICATION = 'crowbank_site.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '192.168.1.109',
-        'NAME': 'petadmin_data',
-        'USER': 'pa',
-        'PASSWORD': 'petadmin',
-        'PORT': '3306'
-    },
-}
-
+if os.name == 'nt':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'HOST': '192.168.1.109',
+            'NAME': 'petadmin_data',
+            'USER': 'pa',
+            'PASSWORD': 'petadmin',
+            'PORT': '3306'
+        },
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'crowbank$petadmin',
+            'USER': 'crowbank',
+            'PASSWORD': 'petadmin',
+            'HOST': 'crowbank.mysql.pythonanywhere-services.com',
+            'PORT': '3306'
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -127,6 +137,10 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static/'
+
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'staticfiles'), # if your static files folder is named "staticfiles"
+#)
 
 EMAIL_HOST = 'ned.enixns.com'
 EMAIL_HOST_PASSWORD = 'Crowb@nk454!'

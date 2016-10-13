@@ -352,7 +352,7 @@ class Confirmation:
     def body(self, report_parameters=None):
         today_date = datetime.date.today()
 
-        template = loader.get_template('confirmation_body.html')
+        template = loader.get_template('intranet/confirmation_body.html')
 
         self.evaluate_parameters()
 
