@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block title %}Crowbank In/Out Report{% endblock %}
+
+{% block content %}
+<h1>In/Out Report</h1>
+<form class="form-horizontal" action="{% url 'inouts' '' %}" method="post">
+    {% csrf_token %}
+
+    {% bootstrap_field form.from_date %}
+    <span class="help-block">
+        Use yymmdd or +n for n days from today, or ddd for weekday. Leave empty for today.
+    </span>
+    {% bootstrap_field form.to_date %}
+    <span class="help-block">
+        Use yymmdd or +n for n days from start date, or ddd for weekday. Leave empty for start date.
+    </span>
+        {% bootstrap_field form.pet_types %}
+        {% bootstrap_field form.in_or_out %}
+        {% bootstrap_button "Submit" button_type="submit" button_class="btn-primary btn-block" %}
+</form>
+
+    <div class="row"><hr></div>
+{% if do_dogs %}
+    {% if do_ins %}
+        {% include "intranet/inout_segment.html" with species="Kennels" direction="In" items=dog_ins %}
+    {%  endif %}
+    {% if do_outs %}
+        {% include "intranet/inout_segment.html" with species="Kennels" direction="Out" items=dog_outs %}
+    {%  endif %}
+{% endif %}
+
+{% if do_cats %}
+    {% if do_ins %}
+        {% include "intranet/inout_segment.html" with species="Cattery" direction="In" items=cat_ins %}
+    {%  endif %}
+    {% if do_outs %}
+        {% include "intranet/inout_segment.html" with species="Cattery" direction="Out" items=cat_outs %}
+    {%  endif %}
+{% endif %}
+{% endblock %}
