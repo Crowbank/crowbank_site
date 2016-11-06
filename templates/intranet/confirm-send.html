@@ -4,123 +4,46 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
-{% block title %}Crowbank Booking Confirmation{% endblock %}
+{% block title %}Crowbank Send Booking Confirmation{% endblock %}
 
 {% block content %}
     <div class="container-fluid">
-        <h1>Booking Confirmation</h1>
+        <h1>Send Booking Confirmation</h1>
 
-        <form class="form-horizontal" action="{% url 'confirm' '' %}" method="post">
+        <form class="form-horizontal" action="{% url 'confirm_send' %}" method="post">
             {% csrf_token %}
 
-            <div class="container-fluid">
-                <div class="col-sm-4" style="border-style: solid; border-color: black; border-width: 1pt;">
-                    <div class="row">
-                        <div class="form-group" style="padding-left: 20pt; padding-right: 20pt; padding-bottom: 10pt;">
-                            <label style="padding-bottom: 5pt;" class="control-label" for="{{ form.bk_no.id_for_label }}">Booking Number</label>
-                            {% render_field form.bk_no class+="form-control" %}
-                        </div>
-                    </div>
-                    <div class="row" style="padding-right: 20pt; padding-left: 20pt; padding-bottom: 20pt;">
-                        {% bootstrap_button "Populate" name="populate" value="Populate" button_type="submit" button_class="btn-primary btn-block" %}
-                    </div>
-                    <div class="col-sm-8"></div>
-                </div>
-            </div>
             <div style="height: 10px;"></div>
-            {% if booking %}
+            <div class="major-heading">Confirmation</div>
+            <div class="major-heading-bottom"></div>
 
-                <div class="major-heading">Booking Details</div>
-                <div class="major-heading-bottom"></div>
-
-                <table class="table table-bordered table-condensed">
-                    <tbody>
-                        <tr>
-                            <td class="column-heading" style="width: 100px;">Customer Surname</td>
-                            <td style="width: 300px;">{{ booking.customer.surname }}</td>
-                        </tr>
-                        <tr>
-                            <td class="column-heading">Start Date</td>
-                            <td>{{ booking.start_date|date:"D d/m"}}</td>
-                        </tr>
-                        <tr>
-                            <td class="column-heading">End Date</td>
-                            <td>{{ booking.end_date|date:"D d/m"}}</td>
-                        </tr>
-                        <tr>
-                            <td class="column-heading">Guests</td>
-                            <td>
-                                {% for pet in booking.pets.all %}
-                                    {{ pet.name }}({{ pet.breed.desc }})<br>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="column-heading">Status</td>
-                            <td>{{ booking.get_status_display }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div class="major-heading">Confirmation Options</div>
-                <div class="major-heading-bottom"></div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="{{ form.status.id_for_label }}">Status</label>
-                        <div class="col-sm-4">{% render_field form.status class+="form-control" %}</div>
-                        <div class="col-sm-6">{{ conf.rationale }}</div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="{{ form.amended.id_for_label }}">Amended</label>
-                        <div class="col-sm-1">{% render_field form.amended class+="form-control" %}</div>
-                        <label class="control-label col-sm-2" for="{{ form.deluxe.id_for_label }}">Deluxe</label>
-                        <div class="col-sm-1">{% render_field form.deluxe class+="form-control" %}</div>
-                        <label class="control-label col-sm-2" for="{{ form.deposit.id_for_label }}">Deposit Amount</label>
-                        <div class="col-sm-4">{% render_field form.deposit class+="form-control" %}</div>
-                    </div>
-                </div>
-
+            {{ form.non_field_errors }}
+            <div style="height: 10px;"></div>
+            <div class="row">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="{{ form.additional_text.id_for_label }}">Additional Text</label>
-                    <div class="col-sm-10">{% render_field form.additional_text class+="form-control" %}</div>
+                    <label class="control-label col-sm-1" for="{{ form.email_to.id_for_label }}">To</label>
+                    <div class="col-sm-10">{% render_field form.email_to class+="form-control" %}</div>
                 </div>
-
-                <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6">
-                        {% bootstrap_button "Generate" name="generate" value="Generate" button_type="submit" button_class="btn-primary btn-block" %}
-                    </div>
-                    <div class="col-sm-3"/></div>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="{{ form.email_cc.id_for_label }}">Cc</label>
+                    <div class="col-sm-10">{% render_field form.email_cc class+="form-control" %}</div>
                 </div>
-            {% endif %}
-
-            {% if confirmation_body %}
-                <div style="height: 10px;"></div>
-                <div class="major-heading">Confirmation</div>
-                <div class="major-heading-bottom"></div>
-
-                <div style="height: 10px;"></div>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="control-label col-sm-2" for="{{ form.email.id_for_label }}">Email</label>
-                        <div class="col-sm-4">{% render_field form.email class+="form-control" %}</div>
-                        <div class="col-sm-6">
-                            {% bootstrap_button "Send" name="send" value="Send" button_type="submit" button_class="btn-primary btn-block" %}
-                        </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-1" for="{{ form.email_bcc.id_for_label }}">Bcc</label>
+                    <div class="col-sm-10">{% render_field form.email_bcc class+="form-control" %}</div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        {% bootstrap_button "Send" name="send" value="Send" button_type="submit" button_class="btn-primary btn-block" %}
                     </div>
                 </div>
-            {% endif %}
-        </form>
-        {% if confirmation_body %}
-            <div style="height: 10pt;"></div>
-            <div style="width: 800px; border: 1px; border-style: solid; border-color: black;
-            padding: 10px; background-color: white;">
-                {{ confirmation_body }}
             </div>
-        {% endif %}
+        </form>
+    </div>
+    <div style="height: 10pt;"></div>
+    <div style="width: 800px; border: 1px; border-style: solid; border-color: black;
+    padding: 10px; background-color: white;">
+        {{ confirmation_body|safe }}
     </div>
 {% endblock %}

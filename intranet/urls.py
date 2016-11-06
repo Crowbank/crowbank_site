@@ -13,12 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import include, url
-from django.contrib import admin
-
+from django.conf.urls import url
 from . import views
 
 urlpatterns = [
+    url(r'^confirm_send', views.send_confirmation, name='confirm_send'),
     url(r'^confirm/(?P<bk_no>[0-9]*)', views.confirm, name='confirm'),
     url(r'^inouts/(?P<io_args>.*)$', views.inouts, name='inouts'),
     url(r'^confirmation/(?P<bk_no>[0-9]+)', views.confirmation, name='confirmation'),

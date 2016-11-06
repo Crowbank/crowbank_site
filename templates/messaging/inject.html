@@ -1,10 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+{% load static %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-</body>
-</html>
+{% block title %}Message Inject{% endblock %}
+
+{% block content %}
+    <form method='post'>
+        {% csrf_token %}
+
+        <label>Message Type</label>
+        {{ message_form.message_type }}
+        {% if message_form.message_type.errors %}
+            {% for error in message_form.message_type.errors %}
+                {{ error|escape }}
+            {% endfor %}
+        {% endif %}
+
+        {{ field_formset.management_form }}
+        {% for field_form in field_formset %}
+            <div>
+                {{ field_form.name }}
+                {{ field_form.content }}
+            </div>
+        {% endfor %}
+
+        <input type="submit" value="Inject" class="button"/>
+    </form>
+{% endblock %}
+<!-- Include formset plugin - including jQuery dependency -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'admin/js/jquery.formset.js' %}"></script>
+<script>
+    $('.link-formset').formset({
+        addText: 'add field',
+        deleteText: 'remove'
+    });
+</script>

@@ -1,15 +1,14 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import re
 from datetime import date, timedelta
-from petadmin_models.models import *
-from forms import ConfirmationForm, InOutForm, BookingSelectionForm, ConfirmationOptionsForm, SendConfirmationForm
-from formtools.wizard.views import SessionWizardView
+from petadmin.models import *
+from forms import ConfirmationForm, InOutForm, SendConfirmationForm, EmailTestForm
 
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world. Welcome to Crowbank's intranet.")
+    return render(request, 'intranet/index.html')
 
 
 WEEKDAYS = {
@@ -180,8 +179,6 @@ def process_form(form):
     status = form.cleaned_data['status']
     conf.amended = form.cleaned_data['amended']
     conf.additional_text = form.cleaned_data['additional_text']
-    if form.cleaned_data['email']:
-        conf.email = form.cleaned_data['email']
     if status == 'C':
         conf.cancelled = True
     elif status == '':
@@ -211,12 +208,17 @@ def confirm(request, bk_no=None):
                 form = ConfirmationForm(conf)
             elif 'generate' in form.data:
                 booking, conf, body = process_form(form)
-            elif 'send' in form.data:
-                booking, conf, body = process_form(form)
-                conf.send()
-                context = {'confirmation_body':body, 'email':conf.email}
-                return render(request, 'intranet/confirm-sent.html', context)
-                # send email and redirect to a confirmation page
+                request.session['bk_no'] = conf.booking.no
+                request.session['body'] = body
+                request.session['deluxe'] = form.cleaned_data['deluxe']
+                request.session['amended'] = form.cleaned_data['amended']
+                request.session['status'] = form.cleaned_data['status']
+                if form.cleaned_data['deposit']:
+                    request.session['deposit'] = float(form.cleaned_data['deposit'])
+                else:
+                    request.session['deposit'] = None
+                request.session['additional_text'] = form.cleaned_data['additional_text']
+                return redirect('/confirm_send/')
     elif bk_no:
         booking = Booking.objects.get(pk=bk_no)
         conf = Confirmation(booking)
@@ -229,6 +231,37 @@ def confirm(request, bk_no=None):
     return render(request, 'intranet/confirm.html', context)
 
 
+def send_confirmation(request):
+    bk_no = request.session['bk_no']
+    booking = Booking.objects.get(pk=bk_no)
+    conf = Confirmation(booking)
+    body = request.session['body']
+    conf.deluxe = request.session['deluxe']
+    conf.amended = request.session['amended']
+    conf.status = request.session['status']
+    conf.deposit_amount = request.session['deposit']
+    if conf.deposit_amount:
+        conf.deposit = True
+    else:
+        conf.deposit = False
+    conf.additional_text = request.session['additional_text']
+    send_form = SendConfirmationForm(conf.booking.customer.email)
+
+    context = {'confirmation_body':body, 'conf':conf, 'form': send_form}
+    if request.method == 'POST':
+        send_form = SendConfirmationForm(request.POST)
+        if send_form.is_valid():
+            email_to = send_form.cleaned_data['email_to']
+            email_cc = send_form.cleaned_data['email_cc']
+            email_bcc = send_form.cleaned_data['email_bcc']
+            conf.send(email_to, email_cc, email_bcc, None, body)
+            return render(request, 'intranet/confirm-sent.html', context)
+
+    return render(request, 'intranet/confirm-send.html', context)
+
+    # send email and redirect to a confirmation page
+
+
 def confirmation(request, bk_no):
     booking = Booking.objects.get(no=bk_no)
     confirmation_object = Confirmation(booking)
@@ -238,21 +271,14 @@ def confirmation(request, bk_no):
     return render(request, 'intranet/confirmation.html', context)
 
 
-CONFIRM_FORMS = [('booking_selection', BookingSelectionForm),
-                 ('confirmation_options', ConfirmationOptionsForm),
-                 ('send_confirmation', SendConfirmationForm),
-                 ]
+def testview(request):
+    if request.method == 'POST' and not 'restart' in request.POST:
+        form = EmailTestForm(request.POST)
+        if form.is_valid():
+            return HttpResponse('Success!')
+    else:
+        form = EmailTestForm()
 
-TEMPLATES = [('booking_selection', 'booking_selection.html'),
-             ('confirmation_options', 'confirmation_options.html'),
-             ('send_confirmation', 'send_confirmation.html'),
-             ]
+    context = {'form': form}
+    return render(request, 'intranet/test.html', context)
 
-
-class ConfirmWizard(SessionWizardView):
-    def get_template_names(self):
-        return [TEMPLATES[self.steps.current]]
-
-    def done(self, form_list, **kwargs):
-        return render(self.request, 'confirmation_sent.html',
-                      {'form_data': [form.cleaned_data for form in form_list], })

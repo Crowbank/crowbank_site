@@ -1,10 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
-</body>
-</html>
+{% block title %}Crowbank Booking Confirmation{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>Recent Messages</h1>
+        <table class="table table-striped table-bordered table-hover">
+            <tbody>
+                <tr>
+                    <td class="column-heading" style="width: 40px;">No</td>
+                    <td class="column-heading" style="width: 40px;">Status</td>
+                    <td class="column-heading" style="width: 140px;">Type</td>
+                    <td class="column-heading" style="width: 260px;">Data</td>
+                    <td class="column-heading" style="width: 100px;">Created</td>
+                    <td class="column-heading" style="width: 100px;">Sent</td>
+                    <td class="column-heading" style="width: 100px;">Confirmed</td>
+                    <td class="column-heading" style="width: 40px;">Code</td>
+                </tr>
+                {% for msg in msgs %}
+                    <tr>
+                        <td>{{ msg.no }}</td>
+                        <td>{{ msg.status }}</td>
+                        <td>{{ msg.type }}</td>
+                        <td><ul>
+                            {% for key, value in msg.message_dict.items %}
+                                <li>{{ key }}: {{ value }}</li>
+                            {% endfor %}
+                        </ul></td>
+                        <td>{{ msg.create_timestamp|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ msg.sent_timestamp|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ msg.confirmed_timestamp|date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ msg.reply_code }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

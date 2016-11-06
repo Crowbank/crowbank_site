@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Message Dispatch</title>
 </head>
 <body>
-
+    {{ dispatch_message }}
+    <form method='post'>
+        {% csrf_token %}
+        <input type="submit" value="Inject" class="button"/>
+    </form>
 </body>
 </html>

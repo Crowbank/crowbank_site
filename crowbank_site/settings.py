@@ -36,9 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'petadmin_models.apps.PetadminModelsConfig',
-    'intranet.apps.IntranetConfig',
     'bootstrap3',
+    'widget_tweaks',
+    'petadmin.apps.PetadminConfig',
+    'intranet.apps.IntranetConfig',
+    'messaging.apps.MessagingConfig',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,7 +138,10 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'static/'
+if os.name == 'nt':
+    STATIC_ROOT = 'static/'
+else:
+    STATIC_ROOT = '/home/crowbank/crowbank_site/static'
 
 #STATICFILES_DIRS = (
 #    os.path.join(BASE_DIR, 'staticfiles'), # if your static files folder is named "staticfiles"
@@ -146,3 +151,4 @@ EMAIL_HOST = 'ned.enixns.com'
 EMAIL_HOST_PASSWORD = 'Crowb@nk454!'
 EMAIL_HOST_USER = 'info@crowbank.co.uk'
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'info@crowbank.co.uk'

@@ -5,10 +5,12 @@
     <title>Confirmation Sent</title>
 </head>
 <body>
-The confirmation below was just sent to {{ email }}.
+The confirmation below was just sent to {{ email_to }}
+{% if email_cc %}, copied to {{ email_cc }} {% endif %}
+{% if email_bcc %}, bcc'ed {{ email_bcc }}. {% endif %}
 <br><br>
 <div style="width: 800px;">
-{{ confirmation_body }}
+{{ confirmation_body|safe }}
 </div>
 </body>
 </html>

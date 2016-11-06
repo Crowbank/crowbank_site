@@ -8,13 +8,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.core.mail import send_mail
 import decimal
 import urllib2
 import datetime
 from django.template import loader
-import os.path
-import pickle
+from django.core.mail import EmailMessage
+from messaging.models import Message
 
 
 SEX_CHOICES = (
@@ -193,29 +192,6 @@ class ReportParameters:
             self.deposit_icon = data.encode("base64")
 
 
-class CrowbankMessage:
-    # This class represents a message sent to Crowbank
-    # Message comprises an action type (string), plus a context dictionary
-    # Sending the message is implemented by first pickling a list of [action, context]
-    # and then writing the result to a file in an outbox folder
-    # The mechanism relies on an external process that copies the content
-    # of the outbox, either using a simple copy (for local implementations)
-    # or using sftp (for remote implementations) to a local inbox
-    # A local listener opens files in the local inbox, unpickles their content,
-    # and implements the desired action
-
-    OUTBOX_FOLDER = 'outbox'
-
-    def __init__(self, action):
-        self.action = action
-        self.id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.context = {}
-
-    def send(self):
-        f = file(os.path.join(CrowbankMessage.OUTBOX_FOLDER, self.id))
-        pickle.dump([self.action, self.context], f)
-
-
 class Confirmation:
     @staticmethod
     def get_deposit_url(bk_no, deposit_amount, pet_names, customer):
@@ -265,6 +241,7 @@ class Confirmation:
         self.rationale = ''
         self.additional_text = ''
         self.email = ''
+        self.subject = ''
 
         if self.booking.start_date.year > 2016:
             self.in_2017 = True
@@ -340,6 +317,8 @@ class Confirmation:
             if self.amended:
                 self.title += ' - Amended'
 
+        self.subject = '%s #%d' % (self.title, self.booking.no)
+
     def calculate_deposit_amount(self):
         deposit_amount = decimal.Decimal("30.00")
         for pet in self.booking.pets.all():
@@ -360,61 +339,30 @@ class Confirmation:
 
         return body
 
-    def send(self, email=None):
-        if email:
-            self.email = email
-
-        if self.email != '':
+    def send(self, email_to, email_cc=None, email_bcc=None, subject=None, body=None):
+        if not subject:
             subject = '%s #%d' % (self.title, self.booking.no)
-            for past_message in self.past_messages:
-                if past_message[1] == self.email and past_message[2] == subject:
-#                        log.warning('Email skipped - identical email already sent on %s', past_message[0])
-                   return
 
+        if not body:
             body = self.body()
-            try:
-                send_mail(subject, body, 'Crowbank Kennels and Cattery <info@crowbank.co.uk>', [self.email])
-#                self.env.send_email(self.email, body, subject)
-            except Exception as e:
-#                    log.exception("Exception sending email '%s': %s", subject, e.message)
-                return
 
-            if self.deposit:
-                msg = CrowbankMessage('deposit_request')
-                msg.context['bk_no'] = self.booking.no
-                msg.context['deposit_amount'] = self.deposit_amount
+        email_msg = EmailMessage(subject, body, None, email_to, cc=email_cc, bcc=email_bcc)
+        email_msg.content_subtype = 'html'
+        email_msg.send()
 
-                msg.send()
-#                 self.booking.customer.deposit_requested = 1
-#                 sql = 'Execute pdeposit_request %d, %f' % (self.booking.no, self.deposit_amount)
-#                 try:
-#                     cursor.execute(sql)
-#                 except Exception as e:
-#                     pass
-# #                       log.exception("Exception executing '%s': %s", sql, e.message)
+        msg = Message(type='confirmation-sent')
+        msg['bk_no'] = self.booking.no
+        if self.deposit:
+            msg['deposit_amount'] = self.deposit_amount
 
-            now = datetime.datetime.now()
+        msg['body'] = body
 
-            msg = CrowbankMessage('confirmation_file')
-            file_name = "Z:\Kennels\Confirmations\%d_%s.html" % (self.booking.no, now.strftime("%Y%m%d%H%M%S"))
-            msg.context['file_name'] = file_name
-            msg.context['body'] = body
-            msg.send()
+        now = datetime.datetime.now()
+        file_name = "%d_%s.html" % (self.booking.no, now.strftime("%Y%m%d%H%M%S"))
+        msg['file_name'] = file_name
+        msg['subject'] = subject
 
-            msg = CrowbankMessage('insert_confaction')
-            msg.context['conf_no'] = self.conf_no
-            msg.context['bk_no'] = self.booking.no
-            msg.context['subject'] = subject
-            msg.context['file_name'] = file_name
-            msg.send()
-
-#             sql = "Execute pinsert_confaction %d, %d, '', '%s', '%s'" %\
-#                 (self.conf_no, self.booking.no, subject, fout)
-#             try:
-#                 cursor.execute(sql)
-#             except Exception as e:
-#                 pass
-# #                    log.exception("Exception executing '%s': %s", sql, e.message)
+        msg.send()
 
 
 class BookingItem(models.Model):
@@ -469,7 +417,6 @@ class Employee(models.Model):
 class MedicalCondition(models.Model):
     no = models.AutoField(primary_key=True, db_column='mc_no')
     desc = models.CharField(max_length=100, db_column='mc_desc')
-
     def __str__(self):
         return self.desc
 
@@ -486,7 +433,6 @@ class VetVisit(models.Model):
         ('S', 'Submitted to Insurer'),
         ('R', 'Repaid by Insurer'),
     )
-
     no = models.AutoField(primary_key=True, db_column='vv_no')
     bk = models.ForeignKey(Booking, db_column='vv_bk_no')
     pet = models.ForeignKey(Pet, db_column='vv_pet_no')
