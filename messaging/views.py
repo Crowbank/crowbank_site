@@ -6,6 +6,10 @@ import json
 from .models import Message, HANDLERS
 from .forms import MessageFieldForm, MessageForm
 from django.forms.formsets import formset_factory
+import logging
+
+
+logger = logging.getLogger('crowbank')
 
 
 # Create your views here.
@@ -29,6 +33,7 @@ def dispatch(request):
     queue_length = Message.queue.count() - 1
     if queue_length >= 0:
         message = Message.queue.next()
+        logger.debug('Sending message #%d' % message.no)
         message.sent_timestamp = datetime.now()
         message.status = 'S'
         message.save()
@@ -39,6 +44,11 @@ def dispatch(request):
 
 
 def recent(request, n=10):
+    n = int(n)
+    if n==7:
+        logger.warn('You request the past seven messages')
+    if n==13:
+        logger.error('Simulated error message!')
     messages = Message.objects.order_by('-create_timestamp')[:n]
     return render(request, 'messaging/recent.html', {'msgs': messages})
 
