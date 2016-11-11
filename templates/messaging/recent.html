@@ -28,7 +28,7 @@
                         <td>{{ msg.type }}</td>
                         <td><ul>
                             {% for key, value in msg.message_dict.items %}
-                                <li>{{ key }}: {{ value }}</li>
+                                <li>{{ key }}: {{ value|truncatechars:100 }}</li>
                             {% endfor %}
                         </ul></td>
                         <td>{{ msg.create_timestamp|date:"Y-m-d H:i:s" }}</td>
