@@ -4,8 +4,9 @@ import re
 from datetime import date, timedelta
 from petadmin.models import *
 from forms import ConfirmationForm, InOutForm, SendConfirmationForm, EmailTestForm
+import logging
 
-# Create your views here.
+logger = logging.getLogger('crowbank')
 
 def index(request):
     return render(request, 'intranet/index.html')
@@ -254,6 +255,10 @@ def send_confirmation(request):
             email_to = send_form.cleaned_data['email_to']
             email_cc = send_form.cleaned_data['email_cc']
             email_bcc = send_form.cleaned_data['email_bcc']
+            context['email_to'] = email_to
+            context['email_cc'] = email_cc
+            context['email_bcc'] = email_bcc
+            logger.info('Sent confirmation to %s' % email_to)
             conf.send(email_to, email_cc, email_bcc, None, body)
             return render(request, 'intranet/confirm-sent.html', context)
 
