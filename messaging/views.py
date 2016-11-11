@@ -45,6 +45,8 @@ def dispatch(request):
 
 def recent(request, n=10):
     n = int(n)
+    if n==3:
+        logger.info('Three messages requested')
     if n==7:
         logger.warn('You request the past seven messages')
     if n==13:

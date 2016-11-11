@@ -3,6 +3,11 @@ import json
 from datetime import datetime
 
 from django.db import models
+import logging
+
+logger = logging.getLogger('crowbank')
+
+
 
 # Create your models here.
 STATUS_CHOICES = (
