@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import logging
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -152,3 +153,61 @@ EMAIL_HOST_PASSWORD = 'Crowb@nk454!'
 EMAIL_HOST_USER = 'info@crowbank.co.uk'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'info@crowbank.co.uk'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '[%(levelname)s] %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'normal': {
+            'format': '[%(levelname)5s] %(asctime)s %(module)s %(message)100s'
+        },
+        'simple': {
+            'format': '[%(levelname)s] %(message)s'
+        },
+    },
+    'handlers': {
+        'django': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'verbose',
+            'when': 'W0',
+            'filename': os.path.join(os.path.dirname(__file__), 'django.log')
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'verbose',
+            'when': 'W0',
+            'filename': os.path.join(os.path.dirname(__file__), 'debug.log')
+        },
+        'important': {
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(os.path.dirname(__file__), 'important.log')
+        },
+        'email': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose',
+            'include_html': True,
+        }
+    },
+    'loggers': {
+        'crowbank': {
+            'handlers': ['debug', 'email', 'important'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['django'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+ADMINS = [('Eran', 'crowbank.partners@gmail.com')]
