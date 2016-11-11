@@ -14,6 +14,9 @@ import datetime
 from django.template import loader
 from django.core.mail import EmailMessage
 from messaging.models import Message
+import logging
+
+logger = logging.getLogger('crowbank')
 
 
 SEX_CHOICES = (
